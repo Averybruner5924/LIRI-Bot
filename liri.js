@@ -6,8 +6,27 @@ var spotify = require('spotify');
 var inquirer = require('inquirer');
 var omdb = require('omdb');
 
+function Spotify(song) {
+  this.song = song;
+}
+
+function Twitter(twitter) {
+  this.twitter = twitter;
+}
+
+function Year(year) {
+    this.year = year;
+}
+    
+function Title(title) {
+    this.title = title;
+}
+
+
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
+var year = new Year
+var title = new Title
 
 
 inquirer
@@ -35,31 +54,38 @@ inquirer
         name: "year"
         },
       ])
+      inquirer.movie.push(Title);
+      inquirer.year.push(Year);
     console.log("Not yet")
   };
   if (inquirerResponse.prompt.twitter) {
+    inquirer.twitter.push(Twitter);
+
+                
     Twitter()
   };
   if (inquirerResponse.prompt.song) {
+    inquirer.song.push(Spotify);
+
     Spotify()
   }
 };
 
-var params = {screen_name: 'name'};
+var params = {screen_name: 'twitter'};
 client.get('statuses/user_timeline', params, function Twitter(error, tweets, response) {
   if (!error) {
     console.log(tweets);
   }
 });
  
-spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function Spotify(err, data) {
+spotify.search({ type: 'song', query: 'dancing in the moonlight' }, function Spotify(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
     }
 });
 
-omdb.get({ title: 'Saw', year: 2004 }, true, function(err, movie) {
+omdb.get({ title: 'title', year: "year" }, true, function(err, movie) {
   if(err) {
       return console.error(err);
   }
