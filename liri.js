@@ -56,45 +56,41 @@ inquirer
       ])
       inquirer.movie.push(Title);
       inquirer.year.push(Year);
-    console.log("Not yet")
-  };
+
+  omdb.get({ title: 'title', year: "year" }, true, function(err, movie) {
+    if(err) {
+      return console.error(err);
+      }
+      
+    if(!movie) {
+      return console.log('Movie not found!');
+      }
+      
+    console.log('%s (%d) %d/10', movie.title, movie.year, movie.imdb.rating);
+    console.log(movie.plot);
+     });
+
+  }
   if (inquirerResponse.prompt.twitter) {
     inquirer.twitter.push(Twitter);
+  var params = {screen_name: 'twitter'};
+  client.get('favorites/list', function(error, tweets, response) {
+  if(error) throw error;
+  console.log(tweets);
+  console.log(response);  
 
+});
                 
-    Twitter()
-  };
-  if (inquirerResponse.prompt.song) {
+  }
+  if  (inquirerResponse.prompt.song) {
     inquirer.song.push(Spotify);
 
-    Spotify()
+  spotify.search({ type: 'song', query: 'dancing in the moonlight' }, function Spotify(err, data) {
+  if ( err ) {
+  console.log('Error occurred: ' + err);
+  return;
+      }
+  });
   }
 };
-
-var params = {screen_name: 'twitter'};
-client.get('statuses/user_timeline', params, function Twitter(error, tweets, response) {
-  if (!error) {
-    console.log(tweets);
-  }
-});
- 
-spotify.search({ type: 'song', query: 'dancing in the moonlight' }, function Spotify(err, data) {
-    if ( err ) {
-        console.log('Error occurred: ' + err);
-        return;
-    }
-});
-
-omdb.get({ title: 'title', year: "year" }, true, function(err, movie) {
-  if(err) {
-      return console.error(err);
-  }
-
-  if(!movie) {
-      return console.log('Movie not found!');
-  }
-
-  console.log('%s (%d) %d/10', movie.title, movie.year, movie.imdb.rating);
-  console.log(movie.plot);
-});
 })
